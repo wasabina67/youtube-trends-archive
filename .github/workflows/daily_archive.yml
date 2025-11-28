@@ -11,5 +11,19 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
-      - run: ls -l
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install .
+
+      - name: List
+        run: |
+          ls -l
+          python -V
