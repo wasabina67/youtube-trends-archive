@@ -23,7 +23,6 @@ jobs:
       - name: Install dependencies
         run: pip install .
 
-      - name: List
+      - name: Run
         run: |
-          ls -l
-          python -V
+          python src/main.py
