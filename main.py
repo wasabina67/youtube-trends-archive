@@ -5,6 +5,25 @@ import pytz
 from googleapiclient.discovery import build
 
 
+def update_index(year_str, month_day_str):
+    index_path = 'docs/index.md'
+    new_entry = f'- [./{year_str}/{month_day_str}.md](./{year_str}/{month_day_str}.md)'
+
+    existing_entries = []
+    if os.path.exists(index_path):
+        with open(index_path, 'r', encoding='utf-8') as f:
+            existing_entries = [line.strip() for line in f if line.strip()]
+
+    if new_entry not in existing_entries:
+        existing_entries.append(new_entry)
+
+    existing_entries.sort(reverse=True)
+
+    with open(index_path, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(existing_entries))
+        f.write('\n')
+
+
 def generate_markdown(videos):
     jst = pytz.timezone('Asia/Tokyo')
     now = datetime.datetime.now(jst)
@@ -44,6 +63,8 @@ def generate_markdown(videos):
     output_path = f'{output_dir}/{month_day_str}.md'
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write('\n'.join(md_lines))
+
+    update_index(year_str, month_day_str)
 
 
 def get_trending_videos(api_key):
