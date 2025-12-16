@@ -49,8 +49,8 @@ def generate_markdown(videos):
 
         md_lines.append(f"### {title}")
         md_lines.append("")
-        md_lines.append(f"- **Channel:** {channel_title}")
-        md_lines.append(f"- **URL:** [https://www.youtube.com/watch?v={video_id}](https://www.youtube.com/watch?v={video_id})")  # noqa
+        md_lines.append(f"- {channel_title}")
+        md_lines.append(f"- [https://www.youtube.com/watch?v={video_id}](https://www.youtube.com/watch?v={video_id})")  # noqa
         md_lines.append("")
         md_lines.append(f'<iframe width="560" height="315" src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')  # noqa
         md_lines.append("")
