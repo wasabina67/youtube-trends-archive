@@ -1,11 +1,18 @@
-import datetime  # noqa
+import datetime
 import os
 
-import pytz  # noqa
+import pytz
 from googleapiclient.discovery import build
 
 
 def generate_markdown(videos):
+    jst = pytz.timezone('Asia/Tokyo')
+    now = datetime.datetime.now(jst)
+    date_str = now.strftime('%Y-%m-%d')
+    time_str = now.strftime('%H:%M')
+
+    md_lines = []
+    md_lines.append(f"# {date_str} {time_str} (JST)")
     print(videos)
 
 
