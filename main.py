@@ -53,8 +53,8 @@ def generate_markdown(videos):
         md_lines.append(f"- [https://www.youtube.com/watch?v={video_id}](https://www.youtube.com/watch?v={video_id})")  # noqa
         md_lines.append("")
         md_lines.append(
-            f'<iframe width="560" height="315" src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
-        )  # noqa
+            f'<iframe width="560" height="315" src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'  # noqa
+        )
         md_lines.append("")
         md_lines.append(f"{view_count:,} views | {like_count:,} likes | {comment_count:,} comments")
         md_lines.append("")
