@@ -11,7 +11,7 @@ def update_index(year_str, month_day_str):
 
     existing_entries = []
     if os.path.exists(index_path):
-        with open(index_path, 'r', encoding='utf-8') as f:
+        with open(index_path, encoding='utf-8') as f:
             existing_entries = [line.strip() for line in f if line.strip()]
 
     if new_entry not in existing_entries:
@@ -36,7 +36,7 @@ def generate_markdown(videos):
     md_lines.append(f"## {date_str} {time_str}")
     md_lines.append("")
 
-    for i, video in enumerate(videos, 1):
+    for _, video in enumerate(videos, 1):
         snippet = video.get('snippet', {})
         statistics = video.get('statistics', {})
         video_id = video.get('id', '')

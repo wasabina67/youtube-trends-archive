@@ -7,6 +7,20 @@ YouTube Trends Archive
 uv sync
 ```
 
+### Ruff
+
+```bash
+uv run ruff check .
+```
+
+```bash
+uv run ruff check --fix .
+```
+
+```bash
+uv run ruff format .
+```
+
 ### Run
 
 ```bash
