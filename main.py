@@ -14,7 +14,7 @@ def generate_markdown(videos):
     month_day_str = now.strftime('%m%d')
 
     md_lines = []
-    md_lines.append(f"## {date_str} {time_str} (JST)")
+    md_lines.append(f"## {date_str} {time_str}")
     md_lines.append("")
 
     for i, video in enumerate(videos, 1):
