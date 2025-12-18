@@ -5,7 +5,6 @@ import pytz
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# YouTube video category IDs for valuable content
 CATEGORY_SCIENCE_TECH = 28
 CATEGORY_NEWS_POLITICS = 25
 CATEGORY_EDUCATION = 27
@@ -82,21 +81,12 @@ def generate_markdown(videos):
 
 
 def get_trending_videos(api_key):
-    """
-    Get trending videos from valuable categories:
-    - Science & Technology (28)
-    - News & Politics (25)
-    - Education (27)
-    """
     youtube = build("youtube", "v3", developerKey=api_key)
-
-    # Fetch videos from multiple valuable content categories
     category_ids = [
         CATEGORY_SCIENCE_TECH,
         CATEGORY_NEWS_POLITICS,
         CATEGORY_EDUCATION,
     ]
-
     all_videos = []
     seen_video_ids = set()
 
