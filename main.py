@@ -82,16 +82,11 @@ def generate_markdown(videos):
 
 def get_trending_videos(api_key):
     youtube = build("youtube", "v3", developerKey=api_key)
-    category_ids = [
-        CATEGORY_NEWS_POLITICS,
-        CATEGORY_EDUCATION,
-        CATEGORY_SCIENCE_TECH,
-    ]
     all_videos = []
     seen_video_ids = set()
 
     # Fetch videos from each category
-    for category_id in category_ids:
+    for category_id in CATEGORY_NAMES:
         try:
             request = youtube.videos().list(
                 part="snippet,statistics",
