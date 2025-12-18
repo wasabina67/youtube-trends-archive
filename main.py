@@ -70,14 +70,46 @@ def generate_markdown(videos):
 
 
 def get_trending_videos(api_key):
+    """
+    Get trending videos from valuable categories:
+    - Science & Technology (28)
+    - News & Politics (25)
+    - Education (27)
+    """
     youtube = build("youtube", "v3", developerKey=api_key)
-    request = youtube.videos().list(
-        part="snippet,statistics",
-        chart="mostPopular",
-        regionCode="JP",
-        maxResults=10,
-    )
-    return request.execute().get("items", [])
+
+    # Category IDs for valuable content
+    category_ids = [
+        28,  # Science & Technology
+        25,  # News & Politics
+        27,  # Education
+    ]
+
+    all_videos = []
+    seen_video_ids = set()
+
+    # Fetch videos from each category
+    for category_id in category_ids:
+        request = youtube.videos().list(
+            part="snippet,statistics",
+            chart="mostPopular",
+            regionCode="JP",
+            videoCategoryId=category_id,
+            maxResults=10,
+        )
+        response = request.execute()
+        videos = response.get("items", [])
+
+        # Add unique videos
+        for video in videos:
+            video_id = video.get("id", "")
+            if video_id not in seen_video_ids:
+                seen_video_ids.add(video_id)
+                all_videos.append(video)
+
+    # Sort by view count (highest first) and return top 10
+    all_videos.sort(key=lambda v: int(v.get("statistics", {}).get("viewCount", "0")), reverse=True)
+    return all_videos[:10]
 
 
 def main():
