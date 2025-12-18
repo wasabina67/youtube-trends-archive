@@ -8,7 +8,6 @@ from googleapiclient.errors import HttpError
 CATEGORY_NEWS_POLITICS = 25
 CATEGORY_EDUCATION = 27
 CATEGORY_SCIENCE_TECH = 28
-
 CATEGORY_NAMES = {
     CATEGORY_NEWS_POLITICS: "News & Politics",
     CATEGORY_EDUCATION: "Education",
