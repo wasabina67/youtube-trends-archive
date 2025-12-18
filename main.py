@@ -87,15 +87,18 @@ def get_trending_videos(api_key):
     # Fetch videos from each category
     for category_id in CATEGORY_NAMES:
         try:
-            request = youtube.videos().list(
-                part="snippet,statistics",
-                chart="mostPopular",
-                regionCode="JP",
-                videoCategoryId=category_id,
-                maxResults=10,
+            videos = (
+                youtube.videos()
+                .list(
+                    part="snippet,statistics",
+                    chart="mostPopular",
+                    regionCode="JP",
+                    videoCategoryId=category_id,
+                    maxResults=10,
+                )
+                .execute()
+                .get("items", [])
             )
-            response = request.execute()
-            videos = response.get("items", [])
 
             # Add unique videos
             for video in videos:
