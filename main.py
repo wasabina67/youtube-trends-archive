@@ -3,6 +3,12 @@ import os
 
 import pytz
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+# YouTube video category IDs for valuable content
+CATEGORY_SCIENCE_TECH = 28
+CATEGORY_NEWS_POLITICS = 25
+CATEGORY_EDUCATION = 27
 
 
 def update_index(year_str, month_day_str):
@@ -87,11 +93,11 @@ def get_trending_videos(api_key):
     """
     youtube = build("youtube", "v3", developerKey=api_key)
 
-    # Category IDs for valuable content
+    # Fetch videos from multiple valuable content categories
     category_ids = [
-        28,  # Science & Technology
-        25,  # News & Politics
-        27,  # Education
+        CATEGORY_SCIENCE_TECH,
+        CATEGORY_NEWS_POLITICS,
+        CATEGORY_EDUCATION,
     ]
 
     all_videos = []
@@ -116,7 +122,7 @@ def get_trending_videos(api_key):
                 if video_id and video_id not in seen_video_ids:
                     seen_video_ids.add(video_id)
                     all_videos.append(video)
-        except Exception as e:
+        except HttpError as e:
             print(f"Warning: Failed to fetch videos for category {category_id}: {e}")
             continue
 
