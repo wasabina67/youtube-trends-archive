@@ -44,15 +44,15 @@ def generate_markdown(videos):
         title = snippet.get("title", "No Title")
         channel_title = snippet.get("channelTitle", "Unknown Channel")
         try:
-            view_count = int(statistics.get("viewCount", 0))
+            view_count = int(statistics.get("viewCount", "0"))
         except (ValueError, TypeError):
             view_count = 0
         try:
-            like_count = int(statistics.get("likeCount", 0))
+            like_count = int(statistics.get("likeCount", "0"))
         except (ValueError, TypeError):
             like_count = 0
         try:
-            comment_count = int(statistics.get("commentCount", 0))
+            comment_count = int(statistics.get("commentCount", "0"))
         except (ValueError, TypeError):
             comment_count = 0
 
@@ -123,7 +123,7 @@ def get_trending_videos(api_key):
     # Sort by view count (highest first) and return top 10
     def get_view_count(video):
         try:
-            return int(video.get("statistics", {}).get("viewCount", 0))
+            return int(video.get("statistics", {}).get("viewCount", "0"))
         except (ValueError, TypeError):
             return 0
 
