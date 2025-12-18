@@ -3,6 +3,17 @@ import os
 
 import pytz
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+CATEGORY_NEWS_POLITICS = 25
+CATEGORY_EDUCATION = 27
+CATEGORY_SCIENCE_TECH = 28
+CATEGORY_NAMES = {
+    CATEGORY_NEWS_POLITICS: "News & Politics",
+    CATEGORY_EDUCATION: "Education",
+    CATEGORY_SCIENCE_TECH: "Science & Technology",
+}
+MAX_RESULTS = 10
 
 
 def update_index(year_str, month_day_str):
@@ -71,13 +82,45 @@ def generate_markdown(videos):
 
 def get_trending_videos(api_key):
     youtube = build("youtube", "v3", developerKey=api_key)
-    request = youtube.videos().list(
-        part="snippet,statistics",
-        chart="mostPopular",
-        regionCode="JP",
-        maxResults=10,
-    )
-    return request.execute().get("items", [])
+    all_videos = []
+    seen_video_ids = set()
+
+    # Fetch videos from each category
+    for category_id in CATEGORY_NAMES:
+        try:
+            videos = (
+                youtube.videos()
+                .list(
+                    part="snippet,statistics",
+                    chart="mostPopular",
+                    regionCode="JP",
+                    videoCategoryId=category_id,
+                    maxResults=MAX_RESULTS,
+                )
+                .execute()
+                .get("items", [])
+            )
+
+            # Add unique videos
+            for video in videos:
+                video_id = video.get("id")
+                if video_id and video_id not in seen_video_ids:
+                    seen_video_ids.add(video_id)
+                    all_videos.append(video)
+        except HttpError as e:
+            category_name = CATEGORY_NAMES.get(category_id, f"ID {category_id}")
+            print(f"Warning: Failed to fetch videos for category {category_name}: {e}")
+            continue
+
+    # Sort by view count (highest first) and return top 10
+    def get_view_count(video):
+        try:
+            return int(video.get("statistics", {}).get("viewCount", "0"))
+        except (ValueError, TypeError):
+            return 0
+
+    all_videos.sort(key=get_view_count, reverse=True)
+    return all_videos[:MAX_RESULTS]
 
 
 def main():
