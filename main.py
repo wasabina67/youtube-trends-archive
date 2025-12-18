@@ -43,9 +43,18 @@ def generate_markdown(videos):
 
         title = snippet.get("title", "No Title")
         channel_title = snippet.get("channelTitle", "Unknown Channel")
-        view_count = int(statistics.get("viewCount", "0"))
-        like_count = int(statistics.get("likeCount", "0"))
-        comment_count = int(statistics.get("commentCount", "0"))
+        try:
+            view_count = int(statistics.get("viewCount", 0))
+        except (ValueError, TypeError):
+            view_count = 0
+        try:
+            like_count = int(statistics.get("likeCount", 0))
+        except (ValueError, TypeError):
+            like_count = 0
+        try:
+            comment_count = int(statistics.get("commentCount", 0))
+        except (ValueError, TypeError):
+            comment_count = 0
 
         md_lines.append(f"### {title}")
         md_lines.append("")
@@ -90,22 +99,26 @@ def get_trending_videos(api_key):
 
     # Fetch videos from each category
     for category_id in category_ids:
-        request = youtube.videos().list(
-            part="snippet,statistics",
-            chart="mostPopular",
-            regionCode="JP",
-            videoCategoryId=category_id,
-            maxResults=10,
-        )
-        response = request.execute()
-        videos = response.get("items", [])
+        try:
+            request = youtube.videos().list(
+                part="snippet,statistics",
+                chart="mostPopular",
+                regionCode="JP",
+                videoCategoryId=category_id,
+                maxResults=10,
+            )
+            response = request.execute()
+            videos = response.get("items", [])
 
-        # Add unique videos
-        for video in videos:
-            video_id = video.get("id")
-            if video_id and video_id not in seen_video_ids:
-                seen_video_ids.add(video_id)
-                all_videos.append(video)
+            # Add unique videos
+            for video in videos:
+                video_id = video.get("id")
+                if video_id and video_id not in seen_video_ids:
+                    seen_video_ids.add(video_id)
+                    all_videos.append(video)
+        except Exception as e:
+            print(f"Warning: Failed to fetch videos for category {category_id}: {e}")
+            continue
 
     # Sort by view count (highest first) and return top 10
     def get_view_count(video):
