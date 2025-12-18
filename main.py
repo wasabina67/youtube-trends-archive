@@ -5,14 +5,14 @@ import pytz
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-CATEGORY_SCIENCE_TECH = 28
 CATEGORY_NEWS_POLITICS = 25
 CATEGORY_EDUCATION = 27
+CATEGORY_SCIENCE_TECH = 28
 
 CATEGORY_NAMES = {
-    CATEGORY_SCIENCE_TECH: "Science & Technology",
     CATEGORY_NEWS_POLITICS: "News & Politics",
     CATEGORY_EDUCATION: "Education",
+    CATEGORY_SCIENCE_TECH: "Science & Technology",
 }
 
 
@@ -83,9 +83,9 @@ def generate_markdown(videos):
 def get_trending_videos(api_key):
     youtube = build("youtube", "v3", developerKey=api_key)
     category_ids = [
-        CATEGORY_SCIENCE_TECH,
         CATEGORY_NEWS_POLITICS,
         CATEGORY_EDUCATION,
+        CATEGORY_SCIENCE_TECH,
     ]
     all_videos = []
     seen_video_ids = set()
