@@ -102,13 +102,19 @@ def get_trending_videos(api_key):
 
         # Add unique videos
         for video in videos:
-            video_id = video.get("id", "")
-            if video_id not in seen_video_ids:
+            video_id = video.get("id")
+            if video_id and video_id not in seen_video_ids:
                 seen_video_ids.add(video_id)
                 all_videos.append(video)
 
     # Sort by view count (highest first) and return top 10
-    all_videos.sort(key=lambda v: int(v.get("statistics", {}).get("viewCount", "0")), reverse=True)
+    def get_view_count(video):
+        try:
+            return int(video.get("statistics", {}).get("viewCount", 0))
+        except (ValueError, TypeError):
+            return 0
+
+    all_videos.sort(key=get_view_count, reverse=True)
     return all_videos[:10]
 
 
