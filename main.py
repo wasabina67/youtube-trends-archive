@@ -10,6 +10,12 @@ CATEGORY_SCIENCE_TECH = 28
 CATEGORY_NEWS_POLITICS = 25
 CATEGORY_EDUCATION = 27
 
+CATEGORY_NAMES = {
+    CATEGORY_SCIENCE_TECH: "Science & Technology",
+    CATEGORY_NEWS_POLITICS: "News & Politics",
+    CATEGORY_EDUCATION: "Education",
+}
+
 
 def update_index(year_str, month_day_str):
     index_path = "docs/index.md"
@@ -123,7 +129,8 @@ def get_trending_videos(api_key):
                     seen_video_ids.add(video_id)
                     all_videos.append(video)
         except HttpError as e:
-            print(f"Warning: Failed to fetch videos for category {category_id}: {e}")
+            category_name = CATEGORY_NAMES.get(category_id, f"ID {category_id}")
+            print(f"Warning: Failed to fetch videos for category {category_name}: {e}")
             continue
 
     # Sort by view count (highest first) and return top 10
