@@ -13,6 +13,7 @@ CATEGORY_NAMES = {
     CATEGORY_EDUCATION: "Education",
     CATEGORY_SCIENCE_TECH: "Science & Technology",
 }
+MAX_RESULTS = 10
 
 
 def update_index(year_str, month_day_str):
@@ -94,7 +95,7 @@ def get_trending_videos(api_key):
                     chart="mostPopular",
                     regionCode="JP",
                     videoCategoryId=category_id,
-                    maxResults=10,
+                    maxResults=MAX_RESULTS,
                 )
                 .execute()
                 .get("items", [])
@@ -119,7 +120,7 @@ def get_trending_videos(api_key):
             return 0
 
     all_videos.sort(key=get_view_count, reverse=True)
-    return all_videos[:10]
+    return all_videos[:MAX_RESULTS]
 
 
 def main():
