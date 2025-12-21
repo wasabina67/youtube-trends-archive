@@ -112,7 +112,7 @@ def get_trending_videos(api_key):
             print(f"Warning: Failed to fetch videos for category {category_name}: {e}")
             continue
 
-    # Sort by view count (highest first) and return top 10
+    # Sort by view count (highest first) and return top MAX_RESULTS
     def get_view_count(video):
         try:
             return int(video.get("statistics", {}).get("viewCount", "0"))
