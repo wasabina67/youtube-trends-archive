@@ -13,7 +13,7 @@ CATEGORY_NAMES = {
     CATEGORY_EDUCATION: "Education",
     CATEGORY_SCIENCE_TECH: "Science & Technology",
 }
-MAX_RESULTS = 10
+MAX_RESULTS = 20
 
 
 def update_index(year_str, month_day_str):
